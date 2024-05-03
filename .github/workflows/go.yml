@@ -1,0 +1,37 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Go
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  APP_DB_USERNAME: postgres
+  APP_DB_PASSWORD: password
+  APP_DB_NAME: postgres
+  
+jobs:
+
+  build:
+    name: Build and Test Code
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.20'
+
+    - name: Set up Postgres
+      run: docker run -it -p 5432:5432 -e POSTGRES_PASSWORD=${APP_DB_PASSWORD} -d postgres
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      run: go test -v ./...
