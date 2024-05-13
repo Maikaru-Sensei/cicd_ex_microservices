@@ -12,6 +12,7 @@ COPY *.go /src
 # Copy go.mod and go.sum files to the working directory
 COPY go.mod ./
 RUN go mod download
+RUN go mod init github.com/Maikaru-Sensei/cicd_ex_microservices
 
 # List items in the working directory (ls)
 RUN ls
