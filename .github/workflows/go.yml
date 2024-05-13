@@ -67,7 +67,7 @@ jobs:
         run: echo "name=sha::$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Tag Docker build
-        run: docker tag maikaru/demo:latest maikaru/demo:${{ steps.git_sha.outputs.sha }}
+        run: docker tag maikaru/demo:latest maikaru/demo:$GITHUB_OUTPUT
 
       - name: Push to Docker Hub 1
         run: docker push maikaru/demo:latest
