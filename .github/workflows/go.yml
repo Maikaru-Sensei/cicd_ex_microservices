@@ -69,6 +69,6 @@ jobs:
         run: docker push maikaru/demo:latest
 
       - name: Push to Docker Hub 2
-        run: docker push maikaru/demo:$GIT_SHA
+        run: docker push maikaru/demo:${{ github.sha }}
     
     
