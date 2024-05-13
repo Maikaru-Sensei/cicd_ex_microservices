@@ -62,11 +62,12 @@ jobs:
       - name: Build Docker
         run: docker build -f Dockerfile -t maikaru/demo:latest ./
         
-      - name: Git Commit SHA
-        run: GIT_SHA="$(git rev-parse --short HEAD)"
-        
+      - name: Get Git Commit SHA
+        id: git_sha
+        run: echo ::set-output name=sha::$(git rev-parse --short HEAD)
+
       - name: Tag Docker build
-        run: docker tag maikaru/demo:latest maikaru/demo:$GIT_SHA
+        run: docker tag maikaru/demo:latest maikaru/demo:${{ steps.git_sha.outputs.sha }}
 
       - name: Push to Docker Hub 1
         run: docker push maikaru/demo:latest
