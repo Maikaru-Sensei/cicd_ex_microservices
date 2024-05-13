@@ -72,5 +72,24 @@ jobs:
 
       - name: Push to Docker Hub 2
         run: docker push maikaru/demo:${{ github.sha }}
-    
+
+  trivy:
+    needs: docker
+    name: Trivy vulnerability scanner
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t maikaru/demo:${{ github.sha }} .
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'maikaru/demo:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
     
