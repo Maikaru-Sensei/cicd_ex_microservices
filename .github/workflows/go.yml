@@ -61,13 +61,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build Docker
         run: docker build -f Dockerfile -t maikaru/demo:latest ./
-        
-      - name: Get Git Commit SHA
-        id: git_sha
-        run: echo "name=sha::$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Tag Docker build
-        run: docker tag maikaru/demo:latest maikaru/demo:$GITHUB_OUTPUT
+        run: docker tag maikaru/demo:latest maikaru/demo:${{ github.sha }}
 
       - name: Push to Docker Hub 1
         run: docker push maikaru/demo:latest
