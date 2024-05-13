@@ -64,7 +64,7 @@ jobs:
         
       - name: Get Git Commit SHA
         id: git_sha
-        run: echo ::set-output name=sha::$(git rev-parse --short HEAD)
+        run: echo "name=sha::$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Tag Docker build
         run: docker tag maikaru/demo:latest maikaru/demo:${{ steps.git_sha.outputs.sha }}
