@@ -37,6 +37,7 @@ jobs:
       run: go test -v ./...
 
   sonarcloud:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -49,6 +50,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   docker:
+    needs: sonarcloud
     name: Build and deploy to DockerHub
     runs-on: ubuntu-latest
     steps:
