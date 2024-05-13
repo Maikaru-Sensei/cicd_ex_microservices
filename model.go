@@ -98,7 +98,7 @@ func getWarehouseValue(db *sql.DB) (string, error) {
 	rows, err := db.Query("SELECT sum(price) FROM products")
 
 	if err != nil {
-		return "", err
+		return "err", err
 	}
 
 	defer rows.Close()
